@@ -63,10 +63,13 @@ fun TimeSearchView(
         ) {
             AnimatedVisibility(visible = isSearchViewDisplayed) {
                 SearchView(
+                    isSearchViewDisplayed = isSearchViewDisplayed,
                     searchListResult = searchListResult,
                     onClickSearch = onClickSearch,
                     onClickCity = onClickCity
-                )
+                ){
+                    isSearchViewDisplayed = false
+                }
             }
         }
     }

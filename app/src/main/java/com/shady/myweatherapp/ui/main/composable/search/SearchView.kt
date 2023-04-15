@@ -30,12 +30,16 @@ fun SearchView(
     searchListResult: SearchResponse?,
     onClickSearch: (String) -> Unit,
     onClickCity: (String) -> Unit,
+    isSearchViewDisplayed: Boolean,
+    onSearchViewVisibilityChange: () -> Unit
 ) {
 
     SearchContent(
+        isSearchViewDisplayed = isSearchViewDisplayed,
         searchListResult = searchListResult,
         onClickSearch = onClickSearch,
-        onClickCity = onClickCity)
+        onClickCity = onClickCity,
+        onSearchViewVisibilityChange = onSearchViewVisibilityChange)
 }
 
 @Composable
@@ -43,12 +47,11 @@ fun SearchContent(
     searchListResult: SearchResponse?,
     onClickSearch: (String) -> Unit,
     onClickCity: (String) -> Unit,
+    isSearchViewDisplayed: Boolean,
+    onSearchViewVisibilityChange: () -> Unit,
 ) {
     var searchText by remember {
         mutableStateOf("")
-    }
-    var isSearchViewVisible by remember {
-        mutableStateOf(true)
     }
     var searchButtonClick by remember {
         mutableStateOf(false)
@@ -56,7 +59,7 @@ fun SearchContent(
     var cardRounded by remember {
         mutableStateOf(RoundedCornerShape(bottomEnd = 25.dp, bottomStart = 25.dp))
     }
-    if (isSearchViewVisible){
+    if (isSearchViewDisplayed){
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -143,7 +146,7 @@ fun SearchContent(
                                     CategoryItems(title = it.name, subTitle = it.region) { title ->
                                         searchText = title
                                         searchButtonClick = false
-                                        isSearchViewVisible = false
+                                        onSearchViewVisibilityChange.invoke()
                                         cardRounded =
                                             RoundedCornerShape(bottomEnd = 25.dp, bottomStart = 25.dp)
                                         onClickCity(title)
