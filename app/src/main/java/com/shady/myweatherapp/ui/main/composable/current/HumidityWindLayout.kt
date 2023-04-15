@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.shady.myweatherapp.ui.main.spacers.spaceHorizontal43
+import com.shady.myweatherapp.ui.main.composable.spacers.SpaceHorizontal43
 
 @Composable
 fun HumidityLayoutView(humidity: String, wind: String) {
@@ -20,7 +20,7 @@ fun HumidityLayoutView(humidity: String, wind: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         WindView(wind)
-        spaceHorizontal43()
+        SpaceHorizontal43()
         HumidityView(humidity)
     }
 }

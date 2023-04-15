@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.shady.domain.entity.search.SearchResponse
 import com.shady.myweatherapp.R
 import com.shady.myweatherapp.ui.main.composable.search.SearchView
-import com.shady.myweatherapp.ui.main.spacers.spaceVertical24
+import com.shady.myweatherapp.ui.main.composable.spacers.SpaceVertical24
 
 @Composable
 fun TimeSearchView(
@@ -35,7 +35,7 @@ fun TimeSearchView(
     Box(
         modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
     ) {
-        spaceVertical24()
+        SpaceVertical24()
         Text(
             fontSize = 16.sp,
             fontStyle = FontStyle.Normal,
@@ -67,7 +67,7 @@ fun TimeSearchView(
                     searchListResult = searchListResult,
                     onClickSearch = onClickSearch,
                     onClickCity = onClickCity
-                ){
+                ) {
                     isSearchViewDisplayed = false
                 }
             }

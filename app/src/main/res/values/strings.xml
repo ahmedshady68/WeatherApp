@@ -6,4 +6,5 @@
     <string name="wind_content_description">Wind image</string>
     <string name="today_text">Today</string>
     <string name="tomorrow_text">Tomorrow</string>
+    <string name="temperature_mark">°F</string>
 </resources>

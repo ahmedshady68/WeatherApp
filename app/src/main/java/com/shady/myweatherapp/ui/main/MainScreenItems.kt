@@ -6,15 +6,17 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.shady.myweatherapp.WeatherViewModel
-import com.shady.myweatherapp.ui.main.composable.title.CityTitleView
 import com.shady.myweatherapp.ui.main.composable.current.CurrentWeatherView
 import com.shady.myweatherapp.ui.main.composable.forecast.ForecastLayoutView
+import com.shady.myweatherapp.ui.main.composable.spacers.SpaceVertical24
 import com.shady.myweatherapp.ui.main.composable.time.TimeSearchView
-import com.shady.myweatherapp.ui.main.spacers.spaceVertical24
+import com.shady.myweatherapp.ui.main.composable.title.CityTitleView
 
 @Composable
 fun BoxWithLayout(content: @Composable ColumnScope.() -> Unit) {
@@ -29,7 +31,7 @@ fun ContentView(viewModel: WeatherViewModel = hiltViewModel()) {
     val forecastState by viewModel.forecasts.collectAsState()
     BoxWithLayout {
         Column(verticalArrangement = Arrangement.Top) {
-            TimeSearchView(viewModel.getTime(), searchState, { searchText ->
+            TimeSearchView(viewModel.getTodayTime(), searchState, { searchText ->
                 viewModel.getSearch(searchText)
             }) { citySelected ->
                 viewModel.getForecast(citySelected)
@@ -41,8 +43,11 @@ fun ContentView(viewModel: WeatherViewModel = hiltViewModel()) {
                     .verticalScroll(rememberScrollState())
                     .weight(weight = 1f, fill = false)
             ) {
-                spaceVertical24()
-                CityTitleView(forecastState?.location?.name ?: "", viewModel.getDayOfTheWeek() ?: "")
+                SpaceVertical24()
+                CityTitleView(
+                    forecastState?.location?.name ?: "",
+                    viewModel.getDayOfTheWeek() ?: ""
+                )
                 CurrentWeatherView()
                 ForecastLayoutView()
             }

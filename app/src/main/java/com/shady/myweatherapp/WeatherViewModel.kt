@@ -1,5 +1,6 @@
 package com.shady.myweatherapp
 
+import android.text.format.DateFormat
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -49,36 +50,14 @@ class WeatherViewModel @Inject constructor(
             }
         }
     }
-
-    fun getTime(): String {
-        var output: String = ""
-        viewModelScope.launch() {
-            try {
-                val time = _forecasts.value?.location?.localtime
-                val parser = SimpleDateFormat("yyyy-MM-dd HH:mm")
-                val formatter = SimpleDateFormat("HH:mm")
-                 output = formatter.format(parser.parse(time))
-            } catch (e: Exception) {
-                Log.e("forecastViewModel", e.message.toString())
-            }
-        }
-        return output
+    fun getTodayTime(): String {
+        return  DateFormat.format("hh:mm aaa",Calendar.getInstance().time).toString()
     }
 
     fun getDayOfTheWeek(): String {
-        var output: String = ""
-        viewModelScope.launch() {
-            try {
-                val time = _forecasts.value?.location?.localtime
-                val sdf = SimpleDateFormat(time)
-                val date = Date()
-                val dayOfTheWeek = sdf.format(date)
-                output = dayOfTheWeek
-            } catch (e: Exception) {
-                Log.e("forecastViewModel", e.message.toString())
-            }
-        }
-        return output
+        return SimpleDateFormat(
+            "EEEE, d MMMM yyyy",
+            Locale.ENGLISH
+        ).format(_forecasts.value?.location?.localtime_epoch?.toLong()?.times(1000) ?: 0)
     }
-
 }
