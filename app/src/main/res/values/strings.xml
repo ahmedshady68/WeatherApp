@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MyWeatherApp</string>
+    <string name="wind_unit">mph</string>
+    <string name="humidity_unit">%</string>
+    <string name="humidity_content_description">Humidity image</string>
+    <string name="wind_content_description">Wind image</string>
+    <string name="today_text">Today</string>
+    <string name="tomorrow_text">Tomorrow</string>
 </resources>

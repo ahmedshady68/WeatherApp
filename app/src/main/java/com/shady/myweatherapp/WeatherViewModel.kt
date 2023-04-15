@@ -8,11 +8,12 @@ import com.shady.domain.entity.search.SearchResponse
 import com.shady.domain.usecase.GetForecast
 import com.shady.domain.usecase.GetSearch
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +29,7 @@ class WeatherViewModel @Inject constructor(
     val search: StateFlow<SearchResponse?> = _search.asStateFlow()
 
     fun getForecast(city: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch() {
             try {
                 val forecast = getForecastUseCase.invoke(city)
                 _forecasts.value = forecast
@@ -39,7 +40,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun getSearch(city: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch() {
             try {
                 val searchData = getSearchUseCase.invoke(city)
                 _search.value = searchData
@@ -48,4 +49,36 @@ class WeatherViewModel @Inject constructor(
             }
         }
     }
+
+    fun getTime(): String {
+        var output: String = ""
+        viewModelScope.launch() {
+            try {
+                val time = _forecasts.value?.location?.localtime
+                val parser = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                val formatter = SimpleDateFormat("HH:mm")
+                 output = formatter.format(parser.parse(time))
+            } catch (e: Exception) {
+                Log.e("forecastViewModel", e.message.toString())
+            }
+        }
+        return output
+    }
+
+    fun getDayOfTheWeek(): String {
+        var output: String = ""
+        viewModelScope.launch() {
+            try {
+                val time = _forecasts.value?.location?.localtime
+                val sdf = SimpleDateFormat(time)
+                val date = Date()
+                val dayOfTheWeek = sdf.format(date)
+                output = dayOfTheWeek
+            } catch (e: Exception) {
+                Log.e("forecastViewModel", e.message.toString())
+            }
+        }
+        return output
+    }
+
 }

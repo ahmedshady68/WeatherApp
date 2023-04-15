@@ -1,4 +1,4 @@
-package com.shady.myweatherapp.ui.main.composable
+package com.shady.myweatherapp.ui.main.composable.current
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -7,18 +7,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.shady.myweatherapp.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
+import com.shady.myweatherapp.WeatherViewModel
 
 @Composable
-fun CurrentWeatherView() {
+fun CurrentWeatherView(viewModel: WeatherViewModel = hiltViewModel()) {
+    val forecastState by viewModel.forecasts.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,7 +30,7 @@ fun CurrentWeatherView() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.sunny_big),
+            painter = rememberAsyncImagePainter(model = "https:${forecastState?.current?.condition?.icon}"),
             modifier = Modifier
                 .size(70.dp),
             contentDescription = "sunny image"
@@ -34,14 +38,20 @@ fun CurrentWeatherView() {
         Text(
             modifier = Modifier.padding(top = 23.dp), fontSize = 56.sp,
             fontStyle = FontStyle.Normal, color = Color.White,
-            fontWeight = FontWeight.SemiBold, text = "82.4°F"
+            fontWeight = FontWeight.SemiBold, text = forecastState?.current?.temp_f.toString()
         )
         Text(
-            modifier = Modifier.padding(top = 18.dp), fontSize = 16.sp,
-            fontStyle = FontStyle.Normal, color = Color.White,
-            fontWeight = FontWeight.Normal, text = "It’s a sunny day. "
+            modifier = Modifier.padding(top = 18.dp),
+            fontSize = 16.sp,
+            fontStyle = FontStyle.Normal,
+            color = Color.White,
+            fontWeight = FontWeight.Normal,
+            text = forecastState?.current?.condition?.text.toString()
         )
-        HumidityLayoutView("60%","3 mph")
+        HumidityLayoutView(
+            forecastState?.current?.humidity.toString(),
+            forecastState?.current?.wind_mph.toString()
+        )
     }
 
 }
