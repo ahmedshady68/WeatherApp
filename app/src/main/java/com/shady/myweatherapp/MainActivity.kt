@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
                     }
                     Greeting(temp)
                 }*/
+                Greeting(temp)
             }
         }
     }
