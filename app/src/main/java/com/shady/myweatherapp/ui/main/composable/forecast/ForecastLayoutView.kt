@@ -22,7 +22,7 @@ fun ForecastLayoutView(viewModel: WeatherViewModel = hiltViewModel()) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 118.dp, bottom = 25.dp),
+            .padding(top = 75.dp, bottom = 25.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         ForecastItemView(
