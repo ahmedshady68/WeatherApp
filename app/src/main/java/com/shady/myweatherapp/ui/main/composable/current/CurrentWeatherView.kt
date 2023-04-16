@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,14 +15,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.shady.domain.entity.Current
 import com.shady.myweatherapp.R
-import com.shady.myweatherapp.WeatherViewModel
 
 @Composable
-fun CurrentWeatherView(viewModel: WeatherViewModel = hiltViewModel()) {
-    val forecastState by viewModel.forecasts.collectAsState()
+fun CurrentWeatherView(current: Current?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,7 +28,7 @@ fun CurrentWeatherView(viewModel: WeatherViewModel = hiltViewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = "https:${forecastState?.current?.condition?.icon}"),
+            painter = rememberAsyncImagePainter(model = "https:${current?.condition?.icon}"),
             modifier = Modifier
                 .size(70.dp),
             contentDescription = "sunny image"
@@ -43,7 +39,7 @@ fun CurrentWeatherView(viewModel: WeatherViewModel = hiltViewModel()) {
             fontStyle = FontStyle.Normal,
             color = Color.White,
             fontWeight = FontWeight.SemiBold,
-            text = String.format("%s%s", forecastState?.current?.temp_f.toString(), stringResource(R.string.temperature_mark))
+            text = String.format("%s%s", current?.temp_f.toString(), stringResource(R.string.temperature_mark))
         )
         Text(
             modifier = Modifier.padding(top = 13.dp),
@@ -51,11 +47,11 @@ fun CurrentWeatherView(viewModel: WeatherViewModel = hiltViewModel()) {
             fontStyle = FontStyle.Normal,
             color = Color.White,
             fontWeight = FontWeight.Normal,
-            text = forecastState?.current?.condition?.text.toString()
+            text = current?.condition?.text.toString()
         )
         HumidityLayoutView(
-            forecastState?.current?.humidity.toString(),
-            forecastState?.current?.wind_mph.toString()
+            current?.humidity.toString(),
+            current?.wind_mph.toString()
         )
     }
 

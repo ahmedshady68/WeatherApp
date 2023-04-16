@@ -5,20 +5,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import com.shady.domain.entity.Forecastday
 import com.shady.myweatherapp.R
-import com.shady.myweatherapp.WeatherViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun ForecastLayoutView(viewModel: WeatherViewModel = hiltViewModel()) {
-    val forecastState by viewModel.forecasts.collectAsState()
+fun ForecastLayoutView(forecastDay: List<Forecastday>?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,26 +22,26 @@ fun ForecastLayoutView(viewModel: WeatherViewModel = hiltViewModel()) {
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         ForecastItemView(
-            forecastState?.forecast?.forecastday?.get(0)?.day?.condition?.icon ?: "",
-            forecastState?.forecast?.forecastday?.get(0)?.day?.maxtemp_f.toString(),
-            forecastState?.forecast?.forecastday?.get(0)?.day?.mintemp_f.toString(),
+            forecastDay?.get(0)?.day?.condition?.icon ?: "",
+            forecastDay?.get(0)?.day?.maxtemp_f.toString(),
+            forecastDay?.get(0)?.day?.mintemp_f.toString(),
             stringResource(R.string.today_text)
         )
         ForecastItemView(
-            forecastState?.forecast?.forecastday?.get(1)?.day?.condition?.icon ?: "",
-            forecastState?.forecast?.forecastday?.get(1)?.day?.maxtemp_f.toString(),
-            forecastState?.forecast?.forecastday?.get(1)?.day?.mintemp_f.toString(),
+            forecastDay?.get(1)?.day?.condition?.icon ?: "",
+            forecastDay?.get(1)?.day?.maxtemp_f.toString(),
+            forecastDay?.get(1)?.day?.mintemp_f.toString(),
             stringResource(R.string.tomorrow_text)
         )
-        forecastState?.forecast?.forecastday?.get(2)?.date_epoch?.let { dateEpoch ->
+        forecastDay?.get(2)?.date_epoch?.let { dateEpoch ->
             getDayOfWeek(
                 dateEpoch.toLong()
             )
         }?.let {
             ForecastItemView(
-                forecastState?.forecast?.forecastday?.get(2)?.day?.condition?.icon ?: "",
-                forecastState?.forecast?.forecastday?.get(2)?.day?.maxtemp_f.toString(),
-                forecastState?.forecast?.forecastday?.get(2)?.day?.mintemp_f.toString(),
+                forecastDay[2].day.condition.icon ?: "",
+                forecastDay[2].day.maxtemp_f.toString(),
+                forecastDay[2].day.mintemp_f.toString(),
                 it
             )
         }

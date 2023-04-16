@@ -7,4 +7,6 @@
     <string name="today_text">Today</string>
     <string name="tomorrow_text">Tomorrow</string>
     <string name="temperature_mark">°F</string>
+    <string name="error_message">Something went wrong...</string>
+    <string name="unknown_error">Unknown Error...</string>
 </resources>
